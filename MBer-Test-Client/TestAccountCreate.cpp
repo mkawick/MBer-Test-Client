@@ -47,10 +47,9 @@ void     RunTestAccountCreate( NetworkLayerExtended& network, NotificationsDeter
    int standardTab = 12;
    ListAccountInstructions();
 
-   string userName;;
-   string userEmail;;
+   string userName;
+   string userEmail;
    string userPassword;
-
    
 
    int key = 0;
