@@ -178,7 +178,8 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
                   }
                   else
                   {
-                     cout << "Name: " << asset.assetHash << endl;
+                     cout << "Name: " << asset.assetName << endl;
+                     cout << "hash: " << asset.assetHash << endl;
                      cout << "Product id: " << (int)asset.productId << endl;
                      cout << "Version: " << asset.version << endl;
                   }
@@ -194,6 +195,65 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
          //if( asset.IsDataValid() == false )
          {
             network.RequestAssetByHash( "4" );
+         }
+
+         if( key == '1' )
+         {
+            vector< string > categories;
+            network.GetAssetCategories( categories );
+            cout << "Asset categories: " << categories.size() << endl;
+            vector< string > ::iterator itCategory = categories.begin();
+            while( itCategory != categories.end() )
+            {
+               const string& categoryName = *itCategory++;
+               int numInCategory = network.GetNumAssets( categoryName );
+               cout << "Category name: " << categoryName << " num=" << numInCategory << " ------------- " << endl;
+               
+               if( numInCategory > 0 )
+               {
+                  AssetInfoExtended asset;
+                  network.GetAssetInfo( categoryName, 0, asset );
+                  network.RequestAssetByHash( asset.assetHash );
+                  cout << "requested: " << asset.assetName << endl;
+               }
+               else
+               {
+                  cout << "not enough in this cat" << endl;
+               }
+            }
+            cout << "Done with request" << endl;
+           
+         }
+
+         if( key == '3' )
+         {
+            vector< string > categories;
+            network.GetAssetCategories( categories );
+            cout << "Asset categories: " << categories.size() << endl;
+            vector< string > ::iterator itCategory = categories.begin();
+            while( itCategory != categories.end() )
+            {
+               const string& categoryName = *itCategory++;
+               if( categoryName == "icons" )
+               {
+                  int numInCategory = network.GetNumAssets( categoryName );
+                  cout << "Category name: " << categoryName << " num=" << numInCategory << " ------------- " << endl;
+                  
+                  if( numInCategory > 0 )
+                  {
+                     AssetInfoExtended asset;
+                     network.GetAssetInfo( categoryName, 0, asset );
+                     network.RequestAssetByHash( asset.assetHash );
+                     cout << "requested: " << asset.assetName << endl;
+                  }
+                  else
+                  {
+                     cout << "not enough in this cat" << endl;
+                  }
+               }
+            }
+            cout << "Done with request" << endl;
+           
          }
 
          /*if( key == 't' )
@@ -411,7 +471,7 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
    network.RequestLogout();

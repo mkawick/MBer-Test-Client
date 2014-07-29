@@ -147,7 +147,7 @@ void  Notifications::ListOfAggregateUserPurchases( const SerializedVector< Purch
    int num = purchases.size();
    for( int i=0; i<num; i++ )
    {
-      cout << "Name: " << purchases[i].name << "  q:" << purchases[i].quantity << "  pid: " << purchases[i].productUuid << endl;
+      cout << "  q:" << purchases[i].quantity << "  pid: " << purchases[i].productUuid << endl;
    }
 }
 void  Notifications::ListOfAvailableProducts( const SerializedVector< ProductBriefPacketed >& products, int platformId ) 
@@ -157,8 +157,10 @@ void  Notifications::ListOfAvailableProducts( const SerializedVector< ProductBri
    int num = products.size();
    for( int i=0; i<num; i++ )
    {
-      cout << "Name: " << products[i].vendorUuid << "  pid: " << products[i].uuid << endl;
-      catalog.push_back( products[i] );
+      const ProductBriefPacketed& product = products[i];
+      cout << "Name: " << product.localizedName << " vid: " << product.vendorUuid << "  pid: " << 
+         product.uuid << endl;
+      catalog.push_back( product );
    }
 }
 
@@ -442,7 +444,9 @@ void  NotificationsDeterministic::ListOfAggregateUserPurchases()
       {
          PurchaseEntry purchase;
          network->GetPurchase( i, purchase );
-         cout << "Purchase: " << purchase.name << ", qty: " << purchase.quantity << endl;
+         ProductBriefPacketed product;
+         network->FindProduct( purchase.productUuid, product );
+         cout << "Purchase: " << product.localizedName << ", qty: " << purchase.quantity << endl;
       }
    }
 }
@@ -490,7 +494,7 @@ void  NotificationsDeterministic::ServerRequestsListOfUserPurchases()
 
    //for( int test = 0; test<4; test++ )
    {
-      for( int i=0; i< 16; i++ )
+     /* for( int i=0; i< 16; i++ )
       {
          Mber::RegisteredProduct product;
          product.id =         "summonerwars.shadowelves.facnot.sold.seperately";
@@ -500,7 +504,7 @@ void  NotificationsDeterministic::ServerRequestsListOfUserPurchases()
          product.price  = "0";
 
          productList.push_back( product );
-      }
+      }*/
       network->SendPurchases( productList );
    }
 

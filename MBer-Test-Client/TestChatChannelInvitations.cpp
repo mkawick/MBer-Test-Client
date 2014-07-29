@@ -328,7 +328,7 @@ void     RunTestChatChannelInvitations( NetworkLayerExtended& network, Notificat
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
    getch();

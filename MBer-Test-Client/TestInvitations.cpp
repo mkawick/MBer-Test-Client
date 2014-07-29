@@ -400,7 +400,7 @@ void     RunTestInvitations( NetworkLayerExtended& network, NotificationsDetermi
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
    network.RequestLogout();

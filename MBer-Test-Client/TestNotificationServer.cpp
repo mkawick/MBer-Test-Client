@@ -420,7 +420,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
 

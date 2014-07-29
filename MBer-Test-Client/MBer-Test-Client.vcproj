@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TestAccountCreate.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestAssets.cpp"
 				>
 			</File>
@@ -214,6 +218,10 @@
 			</File>
 			<File
 				RelativePath=".\TestRelogin.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TestUserStats.cpp"
 				>
 			</File>
 		</Filter>
