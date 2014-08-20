@@ -230,7 +230,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
             {
                RegisteredDevice device;
                network.GetDevice( 0, device );
-               previousUuid = device.uuid;
+               previousUuid = device.uuid.c_str();
                cout << "Saved uuid: " << previousUuid << endl;
             }
             
@@ -265,7 +265,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
             {
                RegisteredDevice device;
                network.GetDevice( i, device );
-               if( device.name.find( defaultDeviceName ) != std::string::npos )
+               if( device.name.find( defaultDeviceName.c_str() ) != std::string::npos )
                {
                   cout << "found it" << endl;
                   bool result = network.RemoveDevice( device.uuid );

@@ -45,6 +45,7 @@ public:
    void  ReadyToStartSendingRequestsToGame();
 
 
+   void  ListOfAvailableProducts();
    void  ListOfAggregateUserPurchases( const SerializedVector< PurchaseEntry >& purchases, int platformId ) ;
    void  ListOfAvailableProducts( const SerializedVector< ProductBriefPacketed >& products, int platformId );
 

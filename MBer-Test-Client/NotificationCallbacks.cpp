@@ -150,6 +150,10 @@ void  Notifications::ListOfAggregateUserPurchases( const SerializedVector< Purch
       cout << "  q:" << purchases[i].quantity << "  pid: " << purchases[i].productUuid << endl;
    }
 }
+void  Notifications::ListOfAvailableProducts()
+{
+   cout << "list of available products" << endl;
+}
 void  Notifications::ListOfAvailableProducts( const SerializedVector< ProductBriefPacketed >& products, int platformId ) 
 {
    catalog.clear();

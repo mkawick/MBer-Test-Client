@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\TestAssetsDifferentPlatforms.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\TestChannels.cpp"
 				>
 			</File>
@@ -215,6 +219,10 @@
 			</File>
 			<File
 				RelativePath=".\TestPurchase.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\TestQuickLoginAndLogout.cpp"
 				>
 			</File>
 			<File
