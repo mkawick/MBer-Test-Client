@@ -154,7 +154,7 @@ void     RunTestRelogin( NetworkLayerExtended& network, NotificationsDeterminist
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
    getch();

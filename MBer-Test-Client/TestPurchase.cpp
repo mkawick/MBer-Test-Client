@@ -57,7 +57,7 @@ void  DumpPurchases( NetworkLayerExtended& network )
          parentUuid = product.parentUuid.c_str();
       }
 
-      cout << " purchase: " << purchase.name << ", num=" << purchase.quantity << ", uuid=" << purchase.productUuid << ", parent uuid=" << parentUuid  << endl;
+      cout << " purchase: " << product.localizedName << ", num=" << purchase.quantity << ", uuid=" << purchase.productUuid << ", parent uuid=" << parentUuid  << endl;
    }
 
    cout << " ---------------------- " << endl;
@@ -243,7 +243,7 @@ void     RunTestPurchases( NetworkLayerExtended& network, NotificationsDetermini
             {
                ProductBriefPacketed product;
                network.GetAvailableProduct( i, product );
-               cout << " name: " << product.vendorUuid << ", uuid=" << product.uuid << endl;
+               cout << " name: " << product.localizedName << " vid: " << product.vendorUuid << ", uuid=" << product.uuid << endl;
             }
 
             cout << " ---------------------- " << endl;
@@ -260,7 +260,10 @@ void     RunTestPurchases( NetworkLayerExtended& network, NotificationsDetermini
             {
                PurchaseEntry purchase;
                network.GetPurchase( i, purchase );
-               cout << " purchase: " << purchase.name << endl;
+               ProductBriefPacketed product;
+               network.FindProduct( purchase.productUuid, product );
+
+               cout << " purchase: " << product.localizedName << endl;
                RegisteredProduct rp;
                rp.id = purchase.productUuid.c_str();
                rp.title = purchase.productUuid.c_str();
@@ -351,8 +354,9 @@ void     RunTestPurchases( NetworkLayerExtended& network, NotificationsDetermini
             string receiptId = GenerateUUID();
             string receiptRepeat = "abcde12345";
             string receipt;
-            for( int i=0; i< 400; i++ )
+            for( int i=0; i< 200; i++ )
                receipt += receiptRepeat;
+            //receipt += GenerateUUID();
 
             string productId = "aabbccddeeff1111";//GenerateUUID();
             int numPurchased = rand() % 5 + 1;
@@ -381,7 +385,7 @@ void     RunTestPurchases( NetworkLayerExtended& network, NotificationsDetermini
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
 

@@ -34,6 +34,8 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
 void     RunTestRelogin( NetworkLayerExtended& network, NotificationsDeterministic& notify, const char* location, UserAccount* listOfAccounts, int numAccounts );
 void     RunTestChatChannelInvitations( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
 void     RunTestNotificationServer( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account, const char* location );
+void     RunTestAccountCreate( NetworkLayerExtended& network, NotificationsDeterministic& notify );
+void     RunTestUserStats(  NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -80,6 +82,9 @@ void  RunQuickLoginTest()
 //////////////////////////////////////////////////////////////////////////////////
 int main( int argc, const char* argv[] )
 {
+   int size = sizeof( BasePacket );
+   BasePacket test;
+
    string userEmail, userPassword, userName;
 
    int whichAccount  = -1;
@@ -106,7 +111,11 @@ int main( int argc, const char* argv[] )
 
    int product = GameProductId_SUMMONWAR;
    //product = GameProductId_AGRICOLA;
-   NetworkLayerExtended network( product, false );
+
+   bool needsAssetServer = false;
+   bool reloginAfterExitTest = false;
+   NetworkLayerExtended network( product, needsAssetServer );
+   //network.PrintFunctionNames();
    //const char* location =  "";
    const char* location =  "10.16.60.10";// "10.16.160.10";
    //const char* location = "chat.mickey.playdekgames.com";
@@ -138,8 +147,11 @@ int main( int argc, const char* argv[] )
       {"star666691@aol.com",     "star666691@aol.com",     "lan8470"},
       {"t1",     "t1",     "123456"}, // 17 
       {"t4",     "t4",     "123456"}, // 18
-      {"m1",     "m1",     "m1"}, // 19
-      {"m2",     "m2",     "m2"}, // 20
+      {"m1",     "m1",     "123456"}, // 19
+      {"m2",     "m2",     "123456"}, // 20
+      {"rad",     "rebecca@playdekgames.com",     "test123"}, // 21
+      {"gweis2",     "gary2@playdekgames.com",     "123456"}, // 22
+      {"asshole_mickey2",     "mickey@playdekgames.com",     "123"}, // 23
       //{"user14", "user14", "user14"},
 
    };
@@ -195,17 +207,35 @@ int main( int argc, const char* argv[] )
 
    //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
 
-   RunTestPurchases( network, notify2, logins[ whichAccount ], location );
+   //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
 
    //RunTestAssets( network, notify2, logins[ whichAccount ] );
 
    //RunTestRelogin( network, notify2, location, logins, numLogins );
    //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
    //RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
+   RunTestAccountCreate( network, notify2 );
 
+   //RunTestUserStats( network, notify2, logins[ whichAccount ] );
+
+
+   cout << "Press any key to exit" << endl;
+   getch();
+   
+   network.Exit();
 
    getch();
-   network.Exit();
+
+   //-----------------------------------------------
+
+   if( reloginAfterExitTest )
+   {
+      cout << "Now reinitializing" << endl;
+
+      network.Init( location );
+      network.RegisterCallbackInterface( &notify2 );
+      RunNormalChatTest( network, notify, logins[ whichAccount ] );
+   }
 
 	return 0;
 }
@@ -452,7 +482,6 @@ void     RunNormalChatTest( NetworkLayerExtended& network, Notifications& notify
          }
          else
          {
-            
             network.SendP2PTextMessage( message, uuid );
          }
       }

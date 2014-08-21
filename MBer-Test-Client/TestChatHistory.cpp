@@ -204,7 +204,7 @@ void RunTestChatHistory( NetworkLayerExtended& network, NotificationsDeterminist
       {
          network.UpdateNotifications();
       }
-      Sleep( 30 );
+      Sleep( 100 );
    }
 
 

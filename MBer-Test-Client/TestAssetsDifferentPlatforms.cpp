@@ -11,13 +11,14 @@ using namespace Mber;
 using namespace std;
 #include "NotificationCallbacks.h"
 
-void  ListAssetInstructions ()
+void  ListAssetAllPlatformsInstructions ()
 {
    cout << "Keys:" << endl;
    cout << " enter- clear screen" << endl;
    cout << " ..do the following in order.." << endl;
    cout << " l- perform login" << endl;
 
+   cout << "p- platform rotation" << endl;
    cout << " c- request list of categories" << endl;
    cout << " r- request all asset list per category" << endl;
    cout << " a- request list of assets" << endl;
@@ -34,7 +35,7 @@ void  ListAssetInstructions ()
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account )
+void     RunTestAssetsDifferentPlatforms( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account )
 {
    cout << "RunTestAssets " << endl;
    bool triedLogin = false;
@@ -43,9 +44,12 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
       userPassword = account.password, 
       userName = account.userName;
 
+   int platformId = Platform_ios;
+   string compression = "";
+
    int standardTab = 12;
 
-   ListAssetInstructions ();
+   ListAssetAllPlatformsInstructions ();
    bool  defaultLogin = false;
 
    int key = 0;
@@ -71,7 +75,33 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
 
       if( key )
       {
-         
+         if( key == 'p' )
+         {
+            if( platformId == Platform_android ) //Platform_ios
+            {
+               if( compression == "etc2" )
+               {
+                  compression = "pvr";
+               }
+               else
+               {
+                  platformId = Platform_ios;
+                  compression = "";
+                  //compression = "ec2";
+               }
+            }
+            else
+            {
+               platformId = Platform_android;               
+               compression = "etc2";
+            }
+          /*  if( platformId > Platform_android )
+               platformId = Platform_ios;*/
+            const char* name = FindPlatformName( platformId );
+            cout << "------------------------------------" << endl;
+            cout << "New platform: " << name << endl;
+            cout << "New compression: " << compression << endl;
+         }
          if( key == 'l' )
          {
             cout << " attempting login " << endl;
@@ -105,7 +135,7 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
             {
                const string& categoryName = *itCategory++;
                cout << "Category name:" << categoryName << endl;
-               network.RequestListOfAssets( categoryName );
+               network.RequestListOfAssets( categoryName, platformId, compression );
             }
             if( categories.size() == 0 )
             {
@@ -462,7 +492,7 @@ void     RunTestAssets( NetworkLayerExtended& network, NotificationsDeterministi
             cout << " email: " << userEmail << endl;
             cout << " pwd: " << userPassword << endl;
             cout << "--------------------------------------" << endl << endl;
-            ListAssetInstructions ();
+            ListAssetAllPlatformsInstructions ();
          }
          //---------------------------------
       }
