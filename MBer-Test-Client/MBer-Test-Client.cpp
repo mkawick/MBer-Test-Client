@@ -36,7 +36,9 @@ void     RunTestChatChannelInvitations( NetworkLayerExtended& network, Notificat
 void     RunTestNotificationServer( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account, const char* location );
 void     RunTestAccountCreate( NetworkLayerExtended& network, NotificationsDeterministic& notify );
 void     RunTestUserStats(  NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
+void     RunTestQuickLoginAndLogout( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
 
+void     RunTestAssetsDifferentPlatforms( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
 //////////////////////////////////////////////////////////////////////////////////
 
 void  RunQuickLoginTest()
@@ -114,11 +116,14 @@ int main( int argc, const char* argv[] )
 
    bool needsAssetServer = false;
    bool reloginAfterExitTest = false;
+   bool runQuickLoginAndLogoutTest = false;
    NetworkLayerExtended network( product, needsAssetServer );
-   //network.PrintFunctionNames();
+   network.PrintFunctionNames();
    //const char* location =  "";
    const char* location =  "10.16.60.10";// "10.16.160.10";
    //const char* location = "chat.mickey.playdekgames.com";
+
+   //connectTo = "testst";
 
    if( connectTo == "local" )
       location = "chat.mickey.playdekgames.com";
@@ -138,20 +143,26 @@ int main( int argc, const char* argv[] )
       {"user8",  "user8",  "user8"},
       {"user9",  "user9",  "user9"},
       {"user10", "user10", "user10"},
-      {"user11", "user11@playdekgames.com", "user11"},
-      {"user12", "user12", "user12"},
-      {"user13", "user13", "user13"},
-      {"user14", "user14", "user14"},
-      {"c3po",   "c3po",   "c3po"},
+      {"user11", "user11@playdekgames.com", "user11"}, // 10
+      {"user12", "user12", "user12"}, // 11
+      {"user13", "user13", "user13"}, // 12
+      {"user14", "user14", "user14"}, // 13
+      {"c3po",   "c3po",   "c3po"},   // 14
       {"cc",     "cc",     "123456"}, // 15
-      {"star666691@aol.com",     "star666691@aol.com",     "lan8470"},
+      {"star666691@aol.com",     "star666691@aol.com",     "lan8470"}, // 16
       {"t1",     "t1",     "123456"}, // 17 
       {"t4",     "t4",     "123456"}, // 18
       {"m1",     "m1",     "123456"}, // 19
       {"m2",     "m2",     "123456"}, // 20
-      {"rad",     "rebecca@playdekgames.com",     "test123"}, // 21
-      {"gweis2",     "gary2@playdekgames.com",     "123456"}, // 22
-      {"asshole_mickey2",     "mickey@playdekgames.com",     "123"}, // 23
+      {"m3",     "m3",     "123456"}, // 21
+      {"m4",     "m4",     "123456"}, // 22
+      {"m5",     "m5",     "123456"}, // 23
+      {"m6",     "m6",     "123456"}, // 24
+      {"rad",     "rebecca@playdekgames.com",     "test123"}, // 25
+      {"gweis2",     "gary2@playdekgames.com",     "123456"}, // 26
+      {"asshole_mickey2",     "mickey@playdekgames.com",     "123"}, // 27
+      {"Gencon01",     "Gencon01",     "banat01"}, // 28
+      
       //{"user14", "user14", "user14"},
 
    };
@@ -189,6 +200,7 @@ int main( int argc, const char* argv[] )
 
    
    network.OverrideSocketPort( 9500 );
+   network.SetNetworkVersionOverride( 1 );
    network.Init( location );//
    network.RegisterCallbackInterface( &notify );
    network.RegisterCallbackInterface( &notify2 );
@@ -199,42 +211,53 @@ int main( int argc, const char* argv[] )
 
    //network.ThrottleConnection( 1 );
 
-   //RunNormalChatTest( network, notify, logins[ whichAccount ] );
-   //RunTest_AutomatedChatChannel( network, notify2, logins[ whichAccount ] );
-   //RunTestInvitations( network, notify2, logins[ whichAccount ] );
-   //RunTestChannels( network, notify2, logins[ whichAccount ] );
-   //RunTestProfiles( network, notify2, logins[ whichAccount ] );
-
-   //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
-
-   //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
-
-   //RunTestAssets( network, notify2, logins[ whichAccount ] );
-
-   //RunTestRelogin( network, notify2, location, logins, numLogins );
-   //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
-   //RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
-   RunTestAccountCreate( network, notify2 );
-
-   //RunTestUserStats( network, notify2, logins[ whichAccount ] );
-
-
-   cout << "Press any key to exit" << endl;
-   getch();
-   
-   network.Exit();
-
-   getch();
-
-   //-----------------------------------------------
-
-   if( reloginAfterExitTest )
+   if( runQuickLoginAndLogoutTest == true )
    {
-      cout << "Now reinitializing" << endl;
+      RunTestQuickLoginAndLogout( network, notify2, logins[ whichAccount ] );
+   
+   }
+   else
+   {
 
-      network.Init( location );
-      network.RegisterCallbackInterface( &notify2 );
-      RunNormalChatTest( network, notify, logins[ whichAccount ] );
+      //RunNormalChatTest( network, notify, logins[ whichAccount ] );
+      //RunTest_AutomatedChatChannel( network, notify2, logins[ whichAccount ] );
+      //RunTestInvitations( network, notify2, logins[ whichAccount ] );
+      //RunTestChannels( network, notify2, logins[ whichAccount ] );
+      //RunTestProfiles( network, notify2, logins[ whichAccount ] );
+
+      //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
+
+      //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
+
+      //RunTestAssets( network, notify2, logins[ whichAccount ] );
+
+      //RunTestRelogin( network, notify2, location, logins, numLogins );
+      //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
+      //RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
+      //RunTestAccountCreate( network, notify2 );
+
+      //RunTestUserStats( network, notify2, logins[ whichAccount ] );
+     RunTestAssetsDifferentPlatforms( network, notify2, logins[ whichAccount ] );
+
+
+
+      cout << "Press any key to exit" << endl;
+      getch();
+      
+      network.Exit();
+
+      getch();
+
+      //-----------------------------------------------
+
+      if( reloginAfterExitTest )
+      {
+         cout << "Now reinitializing" << endl;
+
+         network.Init( location );
+         network.RegisterCallbackInterface( &notify2 );
+         RunNormalChatTest( network, notify, logins[ whichAccount ] );
+      }
    }
 
 	return 0;
@@ -468,13 +491,16 @@ void     RunNormalChatTest( NetworkLayerExtended& network, Notifications& notify
             }
          }
       }
-      if( key == '1' || key == '2' || key == '3' || key == '4' || key == '5' )
+      if( key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '9' || key == '0' )
       {
          int choice = rand () % numMessages;
          const string& message = messages[choice];
          cout << " send message : " << message << endl;
          string user = "user";
-         user += key;
+         if( key == '0' )
+            user += "14";
+         else
+            user += key;
          string uuid = network.FindContact( user );
          if( uuid.size() == 0 )
          {
@@ -518,7 +544,7 @@ void     RunNormalChatTest( NetworkLayerExtended& network, Notifications& notify
             network.AddUserToChannel( uuid, channelUuid );
          }
       }*/
-      if( key == 'q' || key == 'w' || key == 'e' || key == 'r' || key == 't' )
+      if( key == 'q' || key == 'w' || key == 'e' || key == 'r' || key == 't' || key == 'u' || key == 'y' )
       {
          cout << "Send chat to user in a channel" << endl;
          string user = "c";
@@ -527,6 +553,8 @@ void     RunNormalChatTest( NetworkLayerExtended& network, Notifications& notify
          if( key == 'e' ) user = "user3";
          if( key == 'r' ) user = "user4";
          if( key == 't' ) user = "user5";
+         if( key == 'y' ) user = "user9";
+         if( key == 'u' ) user = "user14";
          string uuid = network.FindContact( user );
          if( uuid.size() == 0 )
          {

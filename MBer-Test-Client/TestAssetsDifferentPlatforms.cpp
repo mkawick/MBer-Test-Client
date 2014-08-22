@@ -23,6 +23,7 @@ void  ListAssetAllPlatformsInstructions ()
    cout << " r- request all asset list per category" << endl;
    cout << " a- request list of assets" << endl;
    cout << " d- dump list of assets" << endl;
+   cout << " z- request first ad" << endl;
    cout << " esc - exit app" << endl;   
 
    cout << " 1- request first asset" << endl;
@@ -265,6 +266,37 @@ void     RunTestAssetsDifferentPlatforms( NetworkLayerExtended& network, Notific
             {
                const string& categoryName = *itCategory++;
                if( categoryName == "icons" )
+               {
+                  int numInCategory = network.GetNumAssets( categoryName );
+                  cout << "Category name: " << categoryName << " num=" << numInCategory << " ------------- " << endl;
+                  
+                  if( numInCategory > 0 )
+                  {
+                     AssetInfoExtended asset;
+                     network.GetAssetInfo( categoryName, 0, asset );
+                     network.RequestAssetByHash( asset.assetHash );
+                     cout << "requested: " << asset.assetName << endl;
+                  }
+                  else
+                  {
+                     cout << "not enough in this cat" << endl;
+                  }
+               }
+            }
+            cout << "Done with request" << endl;
+           
+         }
+
+         if( key == 'z' )
+         {
+            vector< string > categories;
+            network.GetAssetCategories( categories );
+            cout << "Asset categories: " << categories.size() << endl;
+            vector< string > ::iterator itCategory = categories.begin();
+            while( itCategory != categories.end() )
+            {
+               const string& categoryName = *itCategory++;
+               if( categoryName == "ads" )
                {
                   int numInCategory = network.GetNumAssets( categoryName );
                   cout << "Category name: " << categoryName << " num=" << numInCategory << " ------------- " << endl;
