@@ -482,12 +482,19 @@ void  NotificationsDeterministic::DeviceRemoved( const string& uuid, bool succes
    cout << "Successful: " << std::boolalpha  << success << std::noboolalpha  << endl;
 }
 
-void  NotificationsDeterministic::TournamentListAvalable() const
+void  NotificationsDeterministic::UpdatedDeviceID( const string& uuid )
+{
+    cout << "Device updated: " << uuid << endl;
+    deviceUuid = uuid;
+
+}
+
+void  NotificationsDeterministic::TournamentListAvalable()
 {
    cout << "TournamentListAvalable " << endl;
 }
 
-void  NotificationsDeterministic::TournamentPurchaseResult( const string& tournamentUuid, int result ) const
+void  NotificationsDeterministic::TournamentPurchaseResult( const string& tournamentUuid, int result )
 {
    cout << "TournamentPurchaseResult " << result << endl;
 }

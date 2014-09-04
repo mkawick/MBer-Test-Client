@@ -222,14 +222,14 @@ int main( int argc, const char* argv[] )
       //RunNormalChatTest( network, notify, logins[ whichAccount ] );
       //RunTest_AutomatedChatChannel( network, notify2, logins[ whichAccount ] );
       //RunTestInvitations( network, notify2, logins[ whichAccount ] );
-      //RunTestChannels( network, notify2, logins[ whichAccount ] );
+      RunTestChannels( network, notify2, logins[ whichAccount ] );
       //RunTestProfiles( network, notify2, logins[ whichAccount ] );
 
       //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
 
       //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
 
-      //RunTestAssets( network, notify2, logins[ whichAccount ] );
+     // RunTestAssets( network, notify2, logins[ whichAccount ] );
 
       //RunTestRelogin( network, notify2, location, logins, numLogins );
       //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
@@ -237,7 +237,7 @@ int main( int argc, const char* argv[] )
       //RunTestAccountCreate( network, notify2 );
 
       //RunTestUserStats( network, notify2, logins[ whichAccount ] );
-     RunTestAssetsDifferentPlatforms( network, notify2, logins[ whichAccount ] );
+     //RunTestAssetsDifferentPlatforms( network, notify2, logins[ whichAccount ] );
 
 
 

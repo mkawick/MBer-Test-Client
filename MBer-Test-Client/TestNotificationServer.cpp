@@ -20,6 +20,7 @@ void  ListTestNotificationServer ()
    cout << " c- changing this device.. update the properties" << endl;
    cout << " l- list all devices registered" << endl;
    cout << " n- register new device" << endl;
+   cout << " b- register same device using uuid" << endl;
    cout << " m- send notification" << endl;
 
    cout << " s- reregister existing device" << endl;
@@ -101,8 +102,20 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
       {
          if( key == 'n' )
          {
-            cout << "registering device" << endl;
-            bool result = network.RegisterDevice( "", "mickey", Platform_ios, "supercalifragilisticexpidocious"  );
+            cout << "registering new device" << endl;
+            bool result = network.RegisterDevice( "", "mickey", Platform_android, "supercalifragilisticexpidocious"  );
+         }
+         if( key == 'b' )
+         {
+            cout << "registering device using uuid" << endl;
+            if( notify.deviceUuid.size() == 0 )
+            {
+               cout << "device not registered: press n to get started" << endl;
+            }
+            else
+            {
+               bool result = network.RegisterDevice( notify.deviceUuid, "mickey", Platform_android, "supercalifragilisticexpidocious"  );
+            }
          }
          if( key == 's' )
          {

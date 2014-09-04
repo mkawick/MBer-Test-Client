@@ -99,10 +99,10 @@ public:
    void  NewChatChannelAdded( const string& channelName, const string& channelUuid, bool success );
    void  ChatChannelDeleted( const string& channelUuid, bool success );
    void  ChatChannel_UserAdded( const string& channelName, const string& channelUuid, const string userName, const string userUuid );
-   void  ChatChannel_UserRemoved( const string& channelUuid, const string& userUuid, bool success ) ;
+   void  ChatChannel_UserRemoved( const string& channelUuid, const string& userUuid, bool success );
    void  InvitationReceived( const InvitationInfo& newInvitation );
-   void  InvitationsReceivedUpdate() ;
-   void  InvitationsSentUpdate() ;
+   void  InvitationsReceivedUpdate();
+   void  InvitationsSentUpdate();
    void  InvitationAccepted( const string& sender, const string& receiver, bool wasAccepted );
    
    void  ChatHistoryMissedSinceLastLoginComposite( const list< MissedChatChannelEntry >& listOfChats );
@@ -114,13 +114,14 @@ public:
 
    void  ChatChannelMembers( const string& name, const string& channelUuid, const SerializedKeyValueVector< string >& info );
    void  DeviceRemoved( const string& uuid, bool success );
+   void  UpdatedDeviceID( const string& deviceUuid );
 
-   void  TournamentListAvalable() const;
-   void  TournamentPurchaseResult( const string& tournamentUuid, int result ) const;
+   void  TournamentListAvalable();
+   void  TournamentPurchaseResult( const string& tournamentUuid, int result );
 
    void  ServerRequestsListOfUserPurchases();
    void  QosChange( const string& text, int errorCode, int param1, int param2 );
-   void  PurchaseReceiptResponse( const string& transactionId, int errorCode ) ;
+   void  PurchaseReceiptResponse( const string& transactionId, int errorCode );
 
    bool  hasReceivedInitialWorld;
    bool  successfulLogin;
@@ -132,6 +133,8 @@ public:
 
    string localUserUuid;
    vector< string > userToAddToChatChannelUponCallback;
+
+   string deviceUuid;
 };
 
 

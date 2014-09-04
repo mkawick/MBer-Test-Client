@@ -26,6 +26,7 @@ void  ListTestInvitations ()
    cout << " f- list all contacts" << endl;
    cout << " o- contact: notations for contact" << endl;
    cout << " p- contact: notations for contact" << endl;
+   cout << " v- request list of contacts" << endl;
 
    cout << " enter- clear screen" << endl;
    cout << "--------------------------------------" << endl << endl;
@@ -381,6 +382,13 @@ void     RunTestInvitations( NetworkLayerExtended& network, NotificationsDetermi
                   cout << "Hard coded user does not exist: " << userName << endl;
                }
             }
+         }
+         if( key == 'v' )
+         {
+            cout << " v- request list of contacts" << endl;
+            cout << "--------------------------------------" << endl << endl;
+            cout << "List all Contacts:" << endl;
+            network.RequestListOfContacts();
          }
          if( key == 13 )// carriage return
          {

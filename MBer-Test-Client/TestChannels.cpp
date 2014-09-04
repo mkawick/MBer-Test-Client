@@ -17,6 +17,7 @@ void  ListTestChannels ()
    cout << " c- create new channel" << endl;
    cout << " l- leave first channel in list " << endl;
    cout << " z- list all channels and members" << endl;
+   cout << " r- request all chat channels" << endl;
    cout << " i- invite other user to channel" << endl;
 
    cout << " enter- clear screen" << endl;
@@ -104,6 +105,11 @@ void     RunTestChannels( NetworkLayerExtended& network, NotificationsDeterminis
                   channel.Print();
                }
             }
+         }
+         if( key == 'r' )
+         {
+            cout << " r- request all chat channels" << endl;
+            network.RequestChatChannelList();
          }
          if( key == 'i' )
          {
