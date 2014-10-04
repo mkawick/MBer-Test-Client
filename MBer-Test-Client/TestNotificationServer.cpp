@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <ctime>
 #include <assert.h>
+#include <fstream>
 
 using namespace Mber;
 using namespace std;
@@ -22,10 +23,17 @@ void  ListTestNotificationServer ()
    cout << " n- register new device" << endl;
    cout << " b- register same device using uuid" << endl;
    cout << " m- send notification" << endl;
+   cout << " v- send notification test" << endl;
 
    cout << " s- reregister existing device" << endl;
+   cout << " y- reregister gary's device" << endl;
    cout << " k- grab uuid of registered device " << endl;
    cout << " j- change audiofile of registered device " << endl;
+
+   cout << " 1- load gary's device id" << endl;
+   cout << " 2- get keys of devices registered" << endl;
+   cout << " 3- register gary's device again" << endl;
+
    cout << " o- logout" << endl;
    cout << " i- login" << endl;
 
@@ -46,6 +54,68 @@ string GenerateRandomName()
    return string ( newName + randomNumber );
 }
 
+////////////////////////////////////////////////////////////////////////
+
+void  LoadGarysDeviceIdFileAndRegisterIt( NetworkLayerExtended& network, 
+                                   NotificationsDeterministic& notify )
+{
+   ifstream file;
+   const int maxFileSize = 2048;
+   char garysRegisteredFile[ maxFileSize ];
+   U32 garysRegisterdFileSize = 0;
+
+   string filename ="C:/TEMP/NewsletterAccounts/GarysDeviceId";
+   file.open ( filename.c_str(), ios::in | ios::binary  );
+   cout << "file to load: " << filename << endl;
+   if( file.is_open() == false )
+   {
+      cout << "error: file DNE" << endl;
+   }
+   else
+   {
+      file.seekg (0, file.end);
+      U32 size = file.tellg();
+      file.seekg (0, file.beg);
+      if( size == 0 )
+      {
+         cout << "error: file has no size" << endl;
+      }
+      else
+      {
+         if( size > maxFileSize )
+         {
+            cout << "error: file too large" << endl;
+         }
+         else
+         {
+            garysRegisteredFile[ size ] = 0;
+            file.read( (char*) garysRegisteredFile, size );
+            garysRegisterdFileSize = size;
+         }
+         cout << "Success.. file loaded" << endl;
+      }
+      file.close();
+      
+   }
+
+
+   if( garysRegisterdFileSize == 0 )
+   {
+      cout << "error.. file not loaded" << endl;
+   }
+   else
+   {
+      string newName = GenerateRandomName();
+      string noUuid( "" );
+      bool result = network.RegisterDevice( noUuid, newName, Platform_ios, garysRegisteredFile );
+
+      cout << "   name: " << (newName) << endl;
+      cout << "..." << endl;
+
+      cout << "----------------------------------" << endl;
+   }
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 void     RunTestNotificationServer( NetworkLayerExtended& network, 
@@ -60,15 +130,24 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
       userPassword = account.password, 
       userName = account.userName;
 
+   const int maxFileSize = 2048;
+   char garysRegisteredFile[ maxFileSize ];
+   U32 garysRegisterdFileSize = 0;
+
+
 
    int standardTab = 12;
    bool  hasRegisteredStandardDevice  = false;
+   bool  runningDuplicateDeviceRegistrationAutomatedTest = true;
 
    ListTestNotificationServer ();
 
    string defaultDeviceName = "crap_default";
    string defaultDeviceId = "crap_default_device_id" ;
    string previousUuid = "786f414b617e3380";
+
+   int         workingDeviceIndex = 0;
+   string      workingDeviceUuid;
 
    int key = 0;
    while( key != 27 )// escape
@@ -95,6 +174,8 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
       {
         /* string uuid = "PLAYDEK-demo014-ipad";
          network.RegisterDevice( uuid, "", Platform_ios, uuid );*/
+         if( runningDuplicateDeviceRegistrationAutomatedTest )
+            LoadGarysDeviceIdFileAndRegisterIt( network, notify );
          hasRegisteredStandardDevice = true;
       }
 
@@ -151,17 +232,17 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
          }
          if( key == 'r' )
          {
-            cout << "requesting devices" << endl;
+            cout << " r- requesting devices" << endl;
             bool result = network.RequestListOfDevicesForThisGame();
          }
          if( key == 'g' )
          {
-            cout << "requesting devices.. all platforms" << endl;
+            cout << " g- requesting devices.. all platforms" << endl;
             bool result = network.RequestListOfDevicesForThisGame( 0 );
          }
          if( key == 'c' )
          {
-            cout << " changing this device " << endl;
+            cout << " c- changing this device " << endl;
              int numDevices = network.GetNumDevices();
             cout << " num: " << numDevices << endl;
             if( numDevices == 0 )
@@ -188,8 +269,14 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
          }
          if( key == 'm' )
          {
-            cout << endl << " sending notification " << endl;
+            cout << endl << " m- sending notification " << endl;
             network.SendNotification( rand() %3+1, "Hello" );
+         }
+
+         if( key == 'v' )
+         {
+            cout << " v- sending notification test" << endl;
+            network.SendNotificationTest( 0, string( "Hello" ) );
          }
 
          if( key == 'l' )
@@ -213,7 +300,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
 
          if( key == 'q' )
          {
-            cout << endl << " delete device " << endl;
+            cout << endl << " q- delete device " << endl;
             int numDevices = network.GetNumDevices();
             cout << " num: " << numDevices << endl;
             for( int i=0; i<numDevices; i++ )
@@ -232,7 +319,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
          }
          if( key == 'k' )
          {
-            cout << endl << " grab uuid of registered device " << endl;
+            cout << endl << " k- grab uuid of registered device " << endl;
             int numDevices = network.GetNumDevices();
             cout << " num: " << numDevices << endl;
             if( numDevices == 0 )
@@ -269,9 +356,95 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
                cout << "Saved uuid: " << previousUuid << endl;*/
             }
          }
+         if( key == '1' )
+         {
+            cout << " 1- load gary's device id" << endl;
+            ifstream file;
+            string filename ="C:/TEMP/NewsletterAccounts/GarysDeviceId";
+            file.open ( filename.c_str(), ios::in | ios::binary  );
+            cout << "file to load: " << filename << endl;
+            if( file.is_open() == false )
+            {
+               cout << "error: file DNE" << endl;
+            }
+            else
+            {
+               file.seekg (0, file.end);
+               U32 size = file.tellg();
+               file.seekg (0, file.beg);
+               if( size == 0 )
+               {
+                  cout << "error: file has no size" << endl;
+               }
+               else
+               {
+                  if( size > maxFileSize )
+                  {
+                     cout << "error: file too large" << endl;
+                  }
+                  else
+                  {
+                     garysRegisteredFile[ size ] = 0;
+                     file.read( (char*) garysRegisteredFile, size );
+                     garysRegisterdFileSize = size;
+                  }
+                  cout << "Success.. file loaded" << endl;
+               }
+               file.close();
+               
+            }
+         }
+         if( key == '2' )
+         {
+            cout << " 2- get keys of devices registered" << endl;
+
+            int numDevices = network.GetNumDevices();
+            if( numDevices == 0 )
+            {
+               cout << "No devices registered" << endl;
+            }
+            else
+            {
+               if( workingDeviceIndex >= numDevices )
+                  workingDeviceIndex = 0;
+               cout << "Grabbing device index: " << workingDeviceIndex << endl;
+               RegisteredDevice device;
+               network.GetDevice( workingDeviceIndex++, device );
+               workingDeviceUuid = device.uuid.c_str();
+               cout << "Saved uuid: " << workingDeviceUuid << endl;
+               cout << "----------------------------------" << endl;
+            }
+         }
+         if( key == '3' )
+         {
+            cout << " 3- register gary's device again" << endl;
+
+            if( garysRegisterdFileSize == 0 )
+            {
+               cout << "you need to load the file first" << endl;
+            }
+            else
+            {
+               if( workingDeviceUuid.size() == 0 )
+               {
+                  cout << "no device uuid loaded" << endl;
+               }
+               else
+               {
+                  string newName = GenerateRandomName();
+                  bool result = network.RegisterDevice( workingDeviceUuid, newName, Platform_ios, garysRegisteredFile );
+
+                  cout << "   name: " << (newName) << endl;
+                  cout << "   uuid: " << workingDeviceUuid << endl;
+                  cout << "..." << endl;
+
+                  cout << "----------------------------------" << endl;
+               }
+            }
+         }
          if( key == 'u' )
          {
-            cout << "Deleting particular device" << endl;
+            cout << " u- Deleting particular device" << endl;
             int numDevices = network.GetNumDevices();
             cout << " num: " << numDevices << endl;
             for( int i=0; i<numDevices; i++ )
@@ -291,6 +464,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
          
          if( key == 'o' )
          {
+            cout << " o- logout" << endl;
             bool isConnected = network.IsConnected();
             bool isLoggedIn = network.IsLoggedIn();
             cout << " loggin user out" << endl;
@@ -311,6 +485,7 @@ void     RunTestNotificationServer( NetworkLayerExtended& network,
          }
          if( key == 'i' )
          {
+            cout << " i- login" << endl;
             bool isConnected = network.IsConnected();
             bool isLoggedIn = network.IsLoggedIn();
             cout << " loggin user in" << endl;

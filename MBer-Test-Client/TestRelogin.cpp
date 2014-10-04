@@ -18,6 +18,7 @@ void  ListTestRelogin ()
    cout << " l- login with random user" << endl;
    cout << " f- fast login" << endl;
    cout << " o- logout " << endl;
+   cout << " c- login with crap password " << endl;
    cout << " esc- exit " << endl;
 
    cout << " enter- clear screen" << endl;
@@ -138,6 +139,39 @@ void     RunTestRelogin( NetworkLayerExtended& network, NotificationsDeterminist
             network.Exit();
             triedLogin= false;
          }
+
+         if( key == 'c' )
+         {
+            cout << " c- login with crap password " << endl;
+            int len = network.GetUsername().size();
+            if( network.IsConnected() == false || len == 0 )
+            {
+               //cout << "Reconnecting... hit c again in a sec or two" << endl;
+               network.RegisterCallbackInterface( &notify );
+               //network.RegisterCallbackInterface( &notify );
+               network.Init( location );
+
+               int index = 4;//rand() % numAccounts;
+
+               userEmail = listOfAccounts[index].userEmail, 
+               userPassword = "abc123[]", 
+               userName = listOfAccounts[index].userName;
+
+               network.RequestLogin( userEmail, userPassword, "En" );
+               triedLogin = true;
+
+               cout << "Attempt login" << endl;
+
+               cout <<  " userEmail: " << userEmail << endl;
+               cout <<  " userPassword: " << userPassword << endl;
+               cout <<  " userName: " << userName << endl;
+            }
+            else
+            {
+               cout << " not ready to login" << endl;
+            }
+         }
+         
   
          if( key == 13 )// carriage return
          {

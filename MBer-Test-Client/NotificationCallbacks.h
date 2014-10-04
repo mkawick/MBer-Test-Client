@@ -85,7 +85,7 @@ public:
    void  UserProfileResponse( string username, string email, string userUuid, string lastLoginTime, string loggedOutTime, int adminLevel, bool isActive, bool showWinLossRecord, bool marketingOptOut, bool showGenderProfile ) ;
 
    void  SelfProfileUpdate( bool success );
-   void  OtherUsersProfile( const map< string, string >& profileKeyValues );
+   void  OtherUsersProfile( const map< string, BoundedString32 >& profileKeyValues );
 
 
    void  UserDemographics( const string& username, const Demographics& userDemographics ) ;

@@ -39,6 +39,8 @@ void     RunTestUserStats(  NetworkLayerExtended& network, NotificationsDetermin
 void     RunTestQuickLoginAndLogout( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
 
 void     RunTestAssetsDifferentPlatforms( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
+void     RunTestAssetsSaveToFile( NetworkLayerExtended& network, NotificationsDeterministic& notify, UserAccount& account );
+
 //////////////////////////////////////////////////////////////////////////////////
 
 void  RunQuickLoginTest()
@@ -92,12 +94,14 @@ int main( int argc, const char* argv[] )
    int whichAccount  = -1;
    int seconds = 7;
    bool  isLoginTest = false;
+   bool  needsAssetServer = false;
    CommandLineParser    parser( argc, argv );
    parser.FindValue( "user.email", userEmail );
    parser.FindValue( "user.password", userPassword );
    parser.FindValue( "account.index", whichAccount );
    parser.FindValue( "seconds", seconds );
    parser.FindValue( "login-test", isLoginTest );
+   parser.FindValue( "assets", needsAssetServer );
 
    if( isLoginTest )
    {
@@ -114,25 +118,29 @@ int main( int argc, const char* argv[] )
    int product = GameProductId_SUMMONWAR;
    //product = GameProductId_AGRICOLA;
 
-   bool needsAssetServer = false;
    bool reloginAfterExitTest = false;
    bool runQuickLoginAndLogoutTest = false;
    NetworkLayerExtended network( product, needsAssetServer );
-   network.PrintFunctionNames();
+   //network.PrintFunctionNames();
    //const char* location =  "";
    const char* location =  "10.16.60.10";// "10.16.160.10";
    //const char* location = "chat.mickey.playdekgames.com";
 
    //connectTo = "testst";
 
-   if( connectTo == "local" )
-      location = "chat.mickey.playdekgames.com";
+   if( connectTo == "release" )
+      location = "10.16.50.68";
+   else if( connectTo == "local" )
+      location = "10.16.4.32";//"chat.mickey.playdekgames.com";
    else if( connectTo == "test" )
       location = "10.16.160.111";
    else
       location = "mber.pub.playdekgames.com";
 
+   //location = "10.16.4.167";
+
    UserAccount logins[] = { 
+      //{"user1",  "user1",  "junk"},
       {"user1",  "user1",  "user1"},
       {"user2",  "user2",  "user2"},
       {"user3",  "user3",  "user3"},
@@ -162,6 +170,9 @@ int main( int argc, const char* argv[] )
       {"gweis2",     "gary2@playdekgames.com",     "123456"}, // 26
       {"asshole_mickey2",     "mickey@playdekgames.com",     "123"}, // 27
       {"Gencon01",     "Gencon01",     "banat01"}, // 28
+      {"kiptanui",     "jason.spain@minotstateu.edu",     "kiptanui"}, // 29
+      {"kiptanui",     "jason.spain@minotstateu.edu",     "bad_password"}, // 30
+      {"gweis",     "gary@playdekgames.com",     "123456"}, // 31
       
       //{"user14", "user14", "user14"},
 
@@ -219,25 +230,26 @@ int main( int argc, const char* argv[] )
    else
    {
 
-      //RunNormalChatTest( network, notify, logins[ whichAccount ] );
+      RunNormalChatTest( network, notify, logins[ whichAccount ] );
       //RunTest_AutomatedChatChannel( network, notify2, logins[ whichAccount ] );
       //RunTestInvitations( network, notify2, logins[ whichAccount ] );
-      RunTestChannels( network, notify2, logins[ whichAccount ] );
+      //RunTestChannels( network, notify2, logins[ whichAccount ] );
       //RunTestProfiles( network, notify2, logins[ whichAccount ] );
 
       //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
 
       //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
 
-     // RunTestAssets( network, notify2, logins[ whichAccount ] );
+      //RunTestAssets( network, notify2, logins[ whichAccount ] );
 
       //RunTestRelogin( network, notify2, location, logins, numLogins );
       //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
-      //RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
+      RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
       //RunTestAccountCreate( network, notify2 );
 
       //RunTestUserStats( network, notify2, logins[ whichAccount ] );
      //RunTestAssetsDifferentPlatforms( network, notify2, logins[ whichAccount ] );
+      //RunTestAssetsSaveToFile( network, notify2, logins[ whichAccount ] );
 
 
 

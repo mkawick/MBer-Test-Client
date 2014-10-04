@@ -118,12 +118,14 @@ void  Notifications::GameData( U16 length, const U8* buffer )
    U8 outBuffer[256];
    memcpy( outBuffer, buffer, 4 );
    outBuffer[4] = 0;
+   cout << endl << "************************************************" << endl;
    cout << "Data received: " << hex ;
    for( int i=0; i< 4; i++ )
    {
       cout << (int) (outBuffer[i]) << ", ";
    }
    cout << endl << dec;
+   cout << endl << "************************************************" << endl;
 }
 
 void  Notifications::FriendsUpdate()
@@ -276,14 +278,14 @@ void  NotificationsDeterministic::SelfProfileUpdate( bool success )
    cout << "Profile updated " << std::boolalpha << success << endl;
 }
 
-void  NotificationsDeterministic::OtherUsersProfile( const map< string, string >& profileKeyValues )
+void  NotificationsDeterministic::OtherUsersProfile( const map< string, BoundedString32 >& profileKeyValues )
 {
    cout << "Profile key:value pairs " << endl;
-   map< string, string >::const_iterator it = profileKeyValues.begin();
+   map< string, BoundedString32 >::const_iterator it = profileKeyValues.begin();
    cout << "profile = [ " << endl;
    while( it != profileKeyValues.end() )
    {
-      const pair< string, string >& kvPair = *it++;
+      const pair< string, BoundedString32 >& kvPair = *it++;
       cout <<  " pair { " << kvPair.first << " - " << kvPair.second << " } " << endl;
    }
 
