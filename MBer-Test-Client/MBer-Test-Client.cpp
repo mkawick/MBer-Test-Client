@@ -4,6 +4,7 @@
 
 #include "../../../Mber/ServerStack/BaseClientLibrary/ClientNetworkWrapper.h"
 #include "../../../Mber/ServerStack/NetworkCommon/Utils/CommandLineParser.h"
+#include "../../../Mber/ServerStack/NetworkCommon/Utils/StringUtils.h"
 
 #include <conio.h>
 #pragma warning (disable: 4996)
@@ -230,7 +231,7 @@ int main( int argc, const char* argv[] )
    else
    {
 
-      RunNormalChatTest( network, notify, logins[ whichAccount ] );
+      //RunNormalChatTest( network, notify, logins[ whichAccount ] );
       //RunTest_AutomatedChatChannel( network, notify2, logins[ whichAccount ] );
       //RunTestInvitations( network, notify2, logins[ whichAccount ] );
       //RunTestChannels( network, notify2, logins[ whichAccount ] );
@@ -238,13 +239,13 @@ int main( int argc, const char* argv[] )
 
       //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
 
-      //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
+      RunTestPurchases( network, notify2, logins[ whichAccount ], location );
 
       //RunTestAssets( network, notify2, logins[ whichAccount ] );
 
       //RunTestRelogin( network, notify2, location, logins, numLogins );
       //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
-      RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
+      //RunTestNotificationServer( network, notify2, logins[ whichAccount ], location );
       //RunTestAccountCreate( network, notify2 );
 
       //RunTestUserStats( network, notify2, logins[ whichAccount ] );
