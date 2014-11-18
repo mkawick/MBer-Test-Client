@@ -104,8 +104,12 @@ public:
    void  InvitationsReceivedUpdate();
    void  InvitationsSentUpdate();
    void  InvitationAccepted( const string& sender, const string& receiver, bool wasAccepted );
+   void  ScheduledOutages( const SerializedVector< ClientSide_ScheduledServiceOutage >& outages );
    
    void  ChatHistoryMissedSinceLastLoginComposite( const list< MissedChatChannelEntry >& listOfChats );
+
+   void  ChatHistory_P2P( const SerializedVector< UuidString >& userUuids );
+   void  ChatHistory_Channel( const SerializedVector< UuidString >& channelUuids );
 
    void  ListOfAggregateUserPurchases();
 

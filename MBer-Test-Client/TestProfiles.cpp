@@ -31,6 +31,7 @@ void  ListInstructions ()
    cout << " 9- get profile of user9" << endl;
    cout << " t- get profile t1.. min" << endl;
    cout << " r- get profile t1.. max" << endl;
+   cout << " m- get profile m6.. max" << endl;
    cout << " x- setup throttling" << endl;
    cout << " z- clear throttling" << endl;
 
@@ -150,6 +151,13 @@ void     RunTestProfiles( NetworkLayerExtended& network, NotificationsDeterminis
          {
             cout << " z- clear throttling" << endl;
             network.ThrottleConnection( 0 );
+         }
+         if( key == 'm' )
+         {
+            string username = "m6";
+
+            cout << "Request user profile : " << username << endl;
+            network.RequestOtherUserInGameProfile( username );
          }
    /*      if( key == 'c' )
          {

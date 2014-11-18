@@ -418,6 +418,24 @@ void  NotificationsDeterministic::InvitationsSentUpdate()
    }
    cout << "] " << endl;
 }
+
+void  NotificationsDeterministic::ScheduledOutages( const SerializedVector< ClientSide_ScheduledServiceOutage >& outages )
+{
+   cout << "ScheduledOutages begin: " << endl;
+   int num = outages.size();
+   for( int i=0; i<num; i++ )
+   {
+      const ClientSide_ScheduledServiceOutage& outage = outages[i];
+      cout << i << ")" << endl;
+      cout << "  type         : " << (U32) outage.type << endl;
+      cout << "  begins       : " << outage.beginTime << endl;
+      cout << "  length (secs): " << outage.downTimeInSeconds << endl;
+      cout << "  cancelled    : " << outage.cancelled << endl;
+      cout << "  gameId       : " << (U32) outage.gameId << endl;
+   }
+   cout << "ScheduledOutages begin: " << endl;
+}
+
 void  NotificationsDeterministic::InvitationAccepted( const string& sender, const string& receiver, bool wasAccepted )
 {
    cout << "InvitationAccepted: " << endl;
@@ -438,6 +456,36 @@ void  NotificationsDeterministic::ChatHistoryMissedSinceLastLoginComposite( cons
       cout << "  id: " << entry.senderTempId << endl;
       //cout << "  num messages: " << entry.numMessages << endl;
    }
+}
+
+void  NotificationsDeterministic::ChatHistory_P2P( const SerializedVector< UuidString >& userUuids )
+{
+   int num = userUuids.size();
+   cout << "Num users who've sent chat while you were away: " << num << endl;
+   cout << "[";
+   for ( int i=0; i<num; i++ )
+   {
+      cout << "   " << userUuids[i];
+      if( i != num-1)
+         cout << ",";
+      cout << endl;
+   }
+   cout << "]" << endl;
+}
+
+void  NotificationsDeterministic::ChatHistory_Channel( const SerializedVector< UuidString >& channelUuids )
+{
+   int num = channelUuids.size();
+   cout << "Num channels with new chat while you were away: " << num << endl;
+   cout << "[";
+   for ( int i=0; i<num; i++ )
+   {
+      cout << "   " << channelUuids[i];
+      if( i != num-1)
+         cout << ",";
+      cout << endl;
+   }
+   cout << "]" << endl;
 }
 
 void  NotificationsDeterministic::ListOfAggregateUserPurchases() 

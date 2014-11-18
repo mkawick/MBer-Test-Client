@@ -19,7 +19,6 @@ using namespace std;
 #include "NotificationCallbacks.h"
 
 
-
 //////////////////////////////////////////////////////////////////////////////////
 
 void     RunNormalChatTest( NetworkLayerExtended& network, Notifications& notify, UserAccount& account );
@@ -104,6 +103,9 @@ int main( int argc, const char* argv[] )
    parser.FindValue( "login-test", isLoginTest );
    parser.FindValue( "assets", needsAssetServer );
 
+   int product = GameProductId_SUMMONWAR;
+   parser.FindValue( "product-id", product );
+
    if( isLoginTest )
    {
       RunQuickLoginTest();
@@ -116,7 +118,7 @@ int main( int argc, const char* argv[] )
 	Notifications notify;
    NotificationsDeterministic notify2;
 
-   int product = GameProductId_SUMMONWAR;
+   
    //product = GameProductId_AGRICOLA;
 
    bool reloginAfterExitTest = false;
@@ -130,13 +132,13 @@ int main( int argc, const char* argv[] )
    //connectTo = "testst";
 
    if( connectTo == "release" )
-      location = "10.16.50.68";
+      location = "mber.pub.playdekgames.com";
    else if( connectTo == "local" )
       location = "10.16.4.32";//"chat.mickey.playdekgames.com";
    else if( connectTo == "test" )
       location = "10.16.160.111";
    else
-      location = "mber.pub.playdekgames.com";
+      location = "mber.pri.playdekgames.com";
 
    //location = "10.16.4.167";
 
@@ -174,6 +176,9 @@ int main( int argc, const char* argv[] )
       {"kiptanui",     "jason.spain@minotstateu.edu",     "kiptanui"}, // 29
       {"kiptanui",     "jason.spain@minotstateu.edu",     "bad_password"}, // 30
       {"gweis",     "gary@playdekgames.com",     "123456"}, // 31
+      {" m6   ",     " m6 ",     "   123456 "}, // 32 with spaces
+      {"rakuten",     "rakuten@playdekgames.com",     "   123456 "}, // 33 with spaces
+      {"junk01",     "junk01",     "123456"}, // 34 bad account
       
       //{"user14", "user14", "user14"},
 
@@ -212,7 +217,8 @@ int main( int argc, const char* argv[] )
 
    
    network.OverrideSocketPort( 9500 );
-   network.SetNetworkVersionOverride( 1 );
+   //network.SetNetworkVersionOverride( 46 );
+   network.SetPlatform( Platform_ios );
    network.Init( location );//
    network.RegisterCallbackInterface( &notify );
    network.RegisterCallbackInterface( &notify2 );
@@ -239,9 +245,9 @@ int main( int argc, const char* argv[] )
 
       //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
 
-      RunTestPurchases( network, notify2, logins[ whichAccount ], location );
+      //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
 
-      //RunTestAssets( network, notify2, logins[ whichAccount ] );
+      RunTestAssets( network, notify2, logins[ whichAccount ] );
 
       //RunTestRelogin( network, notify2, location, logins, numLogins );
       //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );

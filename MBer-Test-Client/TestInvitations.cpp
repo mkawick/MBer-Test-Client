@@ -27,6 +27,7 @@ void  ListTestInvitations ()
    cout << " o- contact: notations for contact" << endl;
    cout << " p- contact: notations for contact" << endl;
    cout << " v- request list of contacts" << endl;
+   cout << " b- request list of invitations" << endl;
 
    cout << " enter- clear screen" << endl;
    cout << "--------------------------------------" << endl << endl;
@@ -151,6 +152,14 @@ void     RunTestInvitations( NetworkLayerExtended& network, NotificationsDetermi
             if( result == true )
             {
                list< InvitationInfo >::iterator it = invites.begin();
+               // hack for a simple test
+               {
+                  while ( it != invites.end() )
+                  {
+                     if( it->inviterName == "user12" )break;
+                     it++;
+                  }
+               }
                if( it == invites.end() )
                {
                   cout << "Bad invitation list" << endl;
@@ -158,7 +167,8 @@ void     RunTestInvitations( NetworkLayerExtended& network, NotificationsDetermi
                else
                {
                   cout << "Accepting invite from:" << it->inviterName << endl;
-                  network.AcceptInvitation( it->uuid );
+                  //network.AcceptInvitation( it->uuid );
+                  network.AcceptInvitationForContacts( it->uuid );
                }
             }
             else
@@ -389,6 +399,13 @@ void     RunTestInvitations( NetworkLayerExtended& network, NotificationsDetermi
             cout << "--------------------------------------" << endl << endl;
             cout << "List all Contacts:" << endl;
             network.RequestListOfContacts();
+         }
+         if( key == 'b' )
+         {
+            cout << " b- request list of invitations" << endl;
+            network.RequestListOfInvitationsReceivedForContacts();
+            network.RequestListOfInvitationsSentForContacts();
+            cout << "--------------------------------------" << endl << endl;
          }
          if( key == 13 )// carriage return
          {
