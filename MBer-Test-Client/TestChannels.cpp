@@ -1,6 +1,6 @@
 
-#include "../../../Mber/ServerStack/BaseClientLibrary/ClientNetworkWrapper.h"
-#include "../../../Mber/ServerStack/NetworkCommon/Utils/StringUtils.h"
+#include "BaseClientLibrary/ClientNetworkWrapper.h"
+#include "NetworkCommon/Utils/StringUtils.h"
 #include <conio.h>
 #pragma warning (disable: 4996)
 #include <iostream>
