@@ -41,6 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="M:\testingcode\playdek\ServerStack; C:\projects\Mber\ServerStack"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;CLIENT_ONLY"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -60,9 +61,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="..\..\..\..\Mber\ServerStack\Debug\BaseClientLibrary.lib ..\..\..\..\Mber\ServerStack\Debug\PacketLibrary.lib"
+				AdditionalDependencies="BaseClientLibrary.lib PacketLibrary.lib"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="C:\projects\Mber\boost\lib32-msvc-9.0"
+				AdditionalLibraryDirectories="M:\TestingCode\PlayDek\ServerStack\Debug;C:\projects\Mber\ServerStack\Debug"
 				IgnoreDefaultLibraryNames="libcmt.lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"

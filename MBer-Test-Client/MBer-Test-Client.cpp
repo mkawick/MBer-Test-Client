@@ -2,9 +2,9 @@
 //
 
 
-#include "../../../Mber/ServerStack/BaseClientLibrary/ClientNetworkWrapper.h"
-#include "../../../Mber/ServerStack/NetworkCommon/Utils/CommandLineParser.h"
-#include "../../../Mber/ServerStack/NetworkCommon/Utils/StringUtils.h"
+#include "BaseClientLibrary/ClientNetworkWrapper.h"
+#include "NetworkCommon/Utils/CommandLineParser.h"
+#include "NetworkCommon/Utils/StringUtils.h"
 
 #include <conio.h>
 #pragma warning (disable: 4996)
@@ -245,9 +245,9 @@ int main( int argc, const char* argv[] )
 
       //RunTestChatHistory( network, notify2, logins[ whichAccount ] );
 
-      //RunTestPurchases( network, notify2, logins[ whichAccount ], location );
+      RunTestPurchases( network, notify2, logins[ whichAccount ], location );
 
-      RunTestAssets( network, notify2, logins[ whichAccount ] );
+      //RunTestAssets( network, notify2, logins[ whichAccount ] );
 
       //RunTestRelogin( network, notify2, location, logins, numLogins );
       //RunTestChatChannelInvitations( network, notify2, logins[ whichAccount ] );
