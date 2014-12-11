@@ -138,7 +138,7 @@ int main( int argc, const char* argv[] )
    else if( connectTo == "test" )
       location = "10.16.160.111";
    else
-      location = "mber.pri.playdekgames.com";
+      location = "10.16.60.102";//"mber.pri.playdekgames.com";
 
    //location = "10.16.4.167";
 
@@ -520,6 +520,22 @@ void     RunNormalChatTest( NetworkLayerExtended& network, Notifications& notify
             user += "14";
          else
             user += key;
+         string uuid = network.FindContact( user );
+         if( uuid.size() == 0 )
+         {
+            cout << user << " not found" << endl;
+         }
+         else
+         {
+            network.SendP2PTextMessage( message, uuid );
+         }
+      }
+      if( key == '.' )
+      {
+         char arrayOfEmoticonChars[] = {0xF0, 0x9F, 0x98, 0x81, 0};
+         const string message = arrayOfEmoticonChars;
+         cout << " send message : " << message << endl;
+         string user = "user8";
          string uuid = network.FindContact( user );
          if( uuid.size() == 0 )
          {
